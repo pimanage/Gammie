@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>หน้าเล่นเกม</title>
+</head>
+<body style="text-align: center; padding-top: 50px; font-family: sans-serif;">
+  <h2>ตอบคำถามเพื่อปลดล็อกห้องลับ</h2>
+  <p>1 + 1 เท่ากับเท่าไหร่?</p>
+  <button onclick="checkAnswer(2)">ตอบ 2 (ถูก)</button>
+  <button onclick="checkAnswer(3)">ตอบ 3 (ผิด)</button>
+
+  <script>
+    // วาง URL ของ Vercel ตรงนี้ (ไม่ต้องใส่ / ปิดท้าย)
+    const BACKEND_URL = 'https://my-vercel-backend-ozw9t0yn4-me2-1322.vercel.app';
+
+    function checkAnswer(ans) {
+      if (ans === 2) {
+        alert('ถูกต้อง! กำลังขอสิทธิ์เข้าห้องลับ...');
+        
+        fetch(`${BACKEND_URL}/api/pass-game`, { method: 'POST' })
+          .then(res => res.json())
+          .then(data => {
+            // ส่งตั๋วต่อไปยังหน้าลับบน Neocities
+            window.location.href = `secret.html?ticket=${data.ticket}`;
+          })
+          .catch(err => alert('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์'));
+      } else {
+        alert('ตอบผิด!');
+      }
+    }
+  </script>
+</body>
+</html>
